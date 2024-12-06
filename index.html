@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Pedidos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pedidos</h1>
+    <table id="tabla-pedidos">
+        <thead>
+            <tr>
+                <th>ID Pedido</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se insertarán los datos -->
+        </tbody>
+    </table>
+
+    <script>
+        // Usar Fetch API para obtener los datos desde el servidor Node.js
+        fetch('/api/pedidos')
+            .then(response => response.json())
+            .then(data => {
+                const tablaPedidos = document.getElementById('tabla-pedidos').getElementsByTagName('tbody')[0];
+                
+                // Recorrer los datos y agregarlos a la tabla
+                data.forEach(pedido => {
+                    let fila = tablaPedidos.insertRow();
+                    fila.insertCell(0).innerText = pedido.id;
+                    fila.insertCell(1).innerText = pedido.cliente;
+                    fila.insertCell(2).innerText = pedido.fecha;
+                    fila.insertCell(3).innerText = pedido.estado;
+                });
+            })
+            .catch(error => console.error('Error al cargar los pedidos:', error));
+    </script>
+</body>
+</html>
